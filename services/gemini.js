@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const MODEL_NAME = 'gemini-flash-latest'
 
 async function generateProfileSummary(userData, repos) {
-    // Extract meaningful repo info
+    //repo info
     const repoInsights = repos.slice(0, 10).map(repo => ({
         name: repo.name,
         description: repo.description || '',
@@ -14,7 +14,7 @@ async function generateProfileSummary(userData, repos) {
         forks: repo.forks_count
     }));
     
-    // Count languages used
+    //languages used
     const langMap = new Map();
     repos.forEach(repo => {
         if (repo.language) {
@@ -27,7 +27,7 @@ async function generateProfileSummary(userData, repos) {
         .map(([lang]) => lang)
         .join(', ');
     
-    // Detect project types from repo names and descriptions
+    // Detect project types from repo 
     const keywords = ['api', 'app', 'web', 'mobile', 'cli', 'library', 'framework', 'game', 'tool', 'backend', 'frontend', 'fullstack', 'data', 'ml', 'ai', 'blockchain', 'iot'];
     const detectedTypes = [];
     repos.forEach(repo => {
@@ -63,7 +63,6 @@ async function generateProfileSummary(userData, repos) {
         return summary.slice(0, 500);
     } catch (error) {
         console.error('Gemini API error:', error.message);
-        // Better fallback using detected info
         return `${userData.login} focuses on ${topLanguages || 'multiple languages'} with ${userData.public_repos} public repos. Projects include ${projectTypes || 'various types'}. ${userData.bio || ''}`.slice(0, 500);
     }
 }

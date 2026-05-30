@@ -8,11 +8,11 @@ const { generateProfileSummary } = require('../services/gemini');
 const analyzeAndStore = async (req, res) => {
     const { username } = req.params;
     try {
-        // 1. fetch user profile
+        // fetch user profile
         const userRes = await githubClient.get(`/users/${username}`);
         const user = userRes.data;
 
-        // 2. fetch all repos (handle pagination)
+        // fetch all repos
         let repos = [];
         let page = 1;
         let hasMore = true;
@@ -29,7 +29,7 @@ const analyzeAndStore = async (req, res) => {
 
         console.log(`Generated summary for ${username}: ${summary}`);
 
-        // 3. compute insights
+        //compute insights
         const { totalStars, topLanguage } = computeRepoInsights(repos);
 
         await upsertUser({
@@ -65,7 +65,7 @@ const analyzeAndStore = async (req, res) => {
     }
 };
 
-// Fetch stored data for a single user from DB
+// Fetch stored user data  from DB
 const getUser = async (req, res) => {
     const { username } = req.params;
     try {

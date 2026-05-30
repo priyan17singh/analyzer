@@ -2,7 +2,6 @@ const pool = require('../config/db');
 
 async function upsertUser(userData) {
     const { id, login, name, public_repos, followers, total_stars, top_language, summary } = userData;
-    console.log(`Generated summary: ${summary}`);
     const sql = `
         INSERT INTO users (id, login, name, public_repos, followers, total_stars, top_language, summary)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
