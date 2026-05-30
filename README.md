@@ -54,7 +54,7 @@ A backend service that fetches a GitHub user’s public profile, analyzes their 
 }
 ```
 
-### 1. Retrieve stored user (GET)
+### 2. Retrieve a stored user (GET)
 
 - **Method:** `GET`
 - **URL:** `https://analyzer-dun.vercel.app/api/users/octocat`
@@ -72,6 +72,42 @@ A backend service that fetches a GitHub user’s public profile, analyzes their 
   "top_language": "JavaScript",
   "summary": "Octocat focuses on open-source tooling with JavaScript and Ruby.",
   "last_fetched": "2026-05-30T12:00:00.000Z"
+}
+```
+### 3. Get all users (GET)
+
+- **Method:** `GET`
+- **URL:** `https://analyzer-dun.vercel.app/api/users/octocat`
+
+**Response example:**
+
+```json
+{
+  "count": 2,
+  "users": [
+    {
+      "id": 583231,
+      "login": "octocat",
+      "name": "The Octocat",
+      "public_repos": 8,
+      "followers": 12345,
+      "total_stars": 456,
+      "top_language": "JavaScript",
+      "summary": "Octocat focuses on open-source tooling...",
+      "last_fetched": "2026-05-30T12:00:00.000Z"
+    },
+    {
+      "id": 12345,
+      "login": "priyan17singh",
+      "name": "Priyan Singh",
+      "public_repos": 22,
+      "followers": 2,
+      "total_stars": 12,
+      "top_language": "Python",
+      "summary": "Backend developer focusing on APIs...",
+      "last_fetched": "2026-05-30T11:30:00.000Z"
+    }
+  ]
 }
 ```
 

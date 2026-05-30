@@ -80,4 +80,18 @@ const getUser = async (req, res) => {
     }
 };
 
-module.exports = { analyzeAndStore, getUser };
+
+const getAllUsers = async (req, res) => {
+    try {
+        const [rows] = await pool.execute('SELECT * FROM users ORDER BY last_fetched DESC');
+        res.json({
+            count: rows.length,
+            users: rows
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+};
+
+module.exports = { analyzeAndStore, getUser, getAllUsers };
