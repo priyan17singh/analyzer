@@ -2,6 +2,7 @@ const githubClient = require('../config/github');
 const pool = require('../config/db');
 const { computeRepoInsights } = require('../utils/insights');
 const { upsertUser } = require('../models/userModel');
+const { generateProfileSummary } = require('../services/gemini');  
 
 // Fetch user from GitHub, compute insights, store in DB
 const analyzeAndStore = async (req, res) => {
@@ -24,6 +25,10 @@ const analyzeAndStore = async (req, res) => {
             page++;
         }
 
+        const summary = await generateProfileSummary(user, repos);
+
+        console.log(`Generated summary for ${username}: ${summary}`);
+
         // 3. compute insights
         const { totalStars, topLanguage } = computeRepoInsights(repos);
 
@@ -34,7 +39,8 @@ const analyzeAndStore = async (req, res) => {
             public_repos: user.public_repos,
             followers: user.followers,
             total_stars: totalStars,
-            top_language: topLanguage
+            top_language: topLanguage,
+            summary : summary
         });
 
         res.json({
@@ -46,7 +52,8 @@ const analyzeAndStore = async (req, res) => {
                 public_repos: user.public_repos,
                 followers: user.followers,
                 total_stars: totalStars,
-                top_language: topLanguage
+                top_language: topLanguage,
+                summary: summary
             }
         });
     } catch (err) {
